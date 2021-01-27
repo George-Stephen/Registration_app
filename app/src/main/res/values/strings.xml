@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Registration</string>
+    <string-array name="title_array">
+        <item>Select the title</item>
+        <item>Mr.</item>
+        <item>Mrs.</item>
+        <item>Miss</item>
+    </string-array>
+    <string-array name="identification_array">
+        <item>Select identification type</item>
+        <item>Passport</item>
+        <item>Identification card</item>
+    </string-array>
+    <string-array name="gender_array">
+        <item>Select the gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="50dp">
+
+        <Button
+            android:id="@+id/add_activity"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:text="Add member"
+            android:drawableTop="@drawable/baseline_create_white_24dp"
+            android:paddingTop="40sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_round"
+            android:drawablePadding="-20sp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/search_activity"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="15dp"
+            android:text="Search member"
+            android:background="@drawable/button_round"
+            android:drawableTop="@drawable/baseline_search_white_24dp"
+            android:paddingTop="40sp"
+            android:textColor="@android:color/white"
+            android:drawablePadding="-20sp"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,3 @@
+include ':Services'
+include ':app'
+rootProject.name = "Registration_android"
