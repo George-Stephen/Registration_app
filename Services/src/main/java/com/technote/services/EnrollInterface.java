@@ -1,5 +1,6 @@
 package com.technote.services;
 
+import com.technote.services.models.Agent;
 import com.technote.services.models.Member;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -27,4 +30,11 @@ public interface EnrollInterface {
                             @Part("added_by") RequestBody added_by
             ,@Part("physical_address") RequestBody address,@Part MultipartBody.Part front_image
             ,@Part MultipartBody.Part back_image,@Part MultipartBody.Part sign_image);
+
+    @GET("api/agents")
+    Call<List<Agent>> get_agent(@Query("email_address") String email_address,@Query("password") String password);
+
+    @FormUrlEncoded
+    @POST("api/agent/new")
+    Call<Agent> new_agent(@Field("username") String username,@Field("email_address") String email_address,@Field("Location") String Location,@Field("password") String password);
 }

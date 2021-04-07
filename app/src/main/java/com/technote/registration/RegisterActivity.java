@@ -1,4 +1,4 @@
-package com.technote.registration;
+  package com.technote.registration;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -83,8 +84,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.date_birth) EditText mDateBirth;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.add_customer) Button mAddButton;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.capture_profile) Button mCaptureProfile;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.capture_front) Button mCaptureFront;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.capture_back) Button mCaptureBack;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.capture_sign) Button mCaptureSign;
     DatePickerDialog datePickerDialog;
     ProgressDialog progressDialog;
+    public  static final int RequestPermissionCode  = 1 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +104,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         get_gender();
         get_identification();
         get_title();
+        EnableRuntimePermission();
         mDateBirth.setOnClickListener(this);
-        mMemberImage.setOnClickListener(this);
-        mFrontImage.setOnClickListener(this);
-        mBackImage.setOnClickListener(this);
-        mSignImage.setOnClickListener(this);
+        mCaptureProfile.setOnClickListener(this);
+        mCaptureFront.setOnClickListener(this);
+        mCaptureBack.setOnClickListener(this);
+        mCaptureSign.setOnClickListener(this);
         mAddButton.setOnClickListener(this);
         createAuthDialog();
     }
@@ -163,22 +175,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        else if (v == mMemberImage){
+        else if (v == mCaptureProfile){
             Toast.makeText(this,"Initiating face capture",Toast.LENGTH_SHORT).show();
             Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(takePicture, 0);//zero can be replaced with any action code
         }
-        else if (v == mFrontImage){
+        else if (v == mCaptureFront){
             Toast.makeText(this,"Initiating front document capture",Toast.LENGTH_SHORT).show();
             Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(takePicture, 1);//zero can be replaced with any action code
         }
-        else if (v == mBackImage){
+        else if (v == mCaptureBack){
             Toast.makeText(this,"Initiating back document capture",Toast.LENGTH_SHORT).show();
             Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(takePicture, 2);//zero can be replaced with any action code
         }
-        else if (v == mSignImage){
+        else if (v == mCaptureSign){
             Toast.makeText(this,"Initiating signature capture",Toast.LENGTH_SHORT).show();
             Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(takePicture, 3);//zero can be replaced with any action code
@@ -238,7 +250,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         RequestBody email_body = RequestBody.create(MediaType.parse("text/plain"),email_address);
         String postal_address = mPostalAddress.getText().toString();
         RequestBody postal_body = RequestBody.create(MediaType.parse("text/plain"),postal_address);
-        String added_by = "Alice_kamau";
+        Intent intent = getIntent();
+        String added_by = intent.getStringExtra("full_name");
         RequestBody added_body = RequestBody.create(MediaType.parse("text/plain"),added_by);
         byte[] front_bytes = getImageByte(mFrontImage);
         RequestBody front_body = RequestBody.create(MediaType.parse("image/jpeg"),front_bytes);
@@ -285,6 +298,42 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Bitmap bitmap = drawable.getBitmap();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
         return outputStream.toByteArray();
+    }
+
+    public void EnableRuntimePermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.this,
+                Manifest.permission.CAMERA))
+        {
+
+            Toast.makeText(RegisterActivity.this,"CAMERA permission allows us to Access CAMERA app", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(RegisterActivity.this,new String[]{
+                    Manifest.permission.CAMERA}, RequestPermissionCode);
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
+
+        switch (RC) {
+
+            case RequestPermissionCode:
+
+                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(RegisterActivity.this,"Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Toast.makeText(RegisterActivity.this,"Permission Canceled, Now your application cannot access CAMERA.", Toast.LENGTH_LONG).show();
+
+                }
+                break;
+        }
     }
 
 }
